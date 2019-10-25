@@ -7,18 +7,21 @@ import M from 'materialize-css';
 
 class Menu extends Component {
     static contextType = AuthContext
-    constructor(props){
-        super(props)
-        this.state = {
-            userName: "",
+   
+        state = {
+            login: false,
+            userName: 'Inicio el estado',
 		}
-        this.isSignOut = this.isSignOut.bind(this)
-    }
+         isSignOut = this.isSignOut.bind(this)
+
     
     isSignOut(){
         firebase.auth().signOut().then(()=> {
               // Sign-out successful.
-              this.setState({userName: ''})
+              this.setState({
+                login: false,
+                userName: 'te fuiste'
+            });
               console.log(this.state)
               //this.props.history.push("/signin")
           }).catch(function(error) {
@@ -26,7 +29,10 @@ class Menu extends Component {
               console.log(error)
           })    
       } 
+     
+      
     render() {
+        console.log(this.context)
         return (           
                 <nav className="light-blue darken-4">
                     <div className="nav-wrapper">
@@ -35,12 +41,10 @@ class Menu extends Component {
                             <li><Link to="/signup">Signup</Link></li>
                             <li>
                                 <Dropdown trigger={<a>Menu<i className="material-icons right">arrow_drop_down</i></a>}>
-                                    {
-                                        this.context.checkEmail ?
-                                        <Link to="#!">{this.context.userName}</Link> :
-                                        <Link to="#!">dasds</Link>
-                                    }
-                                    
+                                   
+                                    <Link to="#!">{this.context.userName}</Link>
+                                             
+                                   
                                     <Link to="/signin">Login</Link>
                                     <Link to="/admin">Admin</Link>
                                     <Divider/>

@@ -19,24 +19,34 @@ export class AuthContextProvider extends React.Component{
     
     componentDidMount(){
         this.unsubscribe = firebase.auth().onAuthStateChanged(user => {
-            console.log(user)
+            //console.log(user)
             if (user) {           
               // User is signed in.
-              this.setState({isLoggedIn: true,authReady:true, userName: user.email, checkEmail: user.emailVerified})
-              console.log(this.state) 
+              this.setState({isLoggedIn: true,authReady:true, userName: 'No estas autenticado', checkEmail: user.emailVerified})
+              //console.log(this.state) 
             } else {
                 // User is signed out.
                 this.setState({isLoggedIn: false,authReady:true, userName:"No estas logeado", checkEmail:false})
-                console.log(this.state)
+                //console.log(this.state)
             }
-                console.log(user) 
+                //console.log(user) 
           });
                
      } 
      componentWillUnmount() {
          this.unsubscribe();
     }
-    
+
+     componentWillUpdate(){
+        if(this.state.isLoggedIn === true){
+            if (this.state.checkEmail === true) {
+                this.setState({isLoggedIn: true,authReady:true, userName: this.state.userName, checkEmail: true})  
+            }
+            
+        }
+        console.log(this.state)
+      }
+      
     render() {
         return (
             <AuthContext.Provider value={this.state}>

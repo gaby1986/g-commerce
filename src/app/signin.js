@@ -19,6 +19,14 @@ class Signin extends Component{
         this.login = this.login.bind(this)
        
     }
+    handleInput(e){
+        //console.log(e.currentTarget)
+        this.setState({
+                ...this.state,
+                [e.currentTarget.name]: e.currentTarget.value
+        })
+        e.preventDefault()
+    }
     
     login(e){
         e.preventDefault()
@@ -45,14 +53,6 @@ class Signin extends Component{
                 //console.log(error)
                 this.setState({error})
             })
-    }
-    handleInput(e){
-        //console.log(e.currentTarget)
-        this.setState({
-                ...this.state,
-                [e.currentTarget.name]: e.currentTarget.value
-        })
-        e.preventDefault()
     }
     
    
