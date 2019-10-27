@@ -13,7 +13,7 @@ export class AuthContextProvider extends React.Component{
             isLoggedIn: false,
             authReady: false,
             userName: null,
-            checkEmail: false
+            checkEmail: false,
         }
     }
     
@@ -22,7 +22,7 @@ export class AuthContextProvider extends React.Component{
             //console.log(user)
             if (user) {           
               // User is signed in.
-              this.setState({isLoggedIn: true,authReady:true, userName: 'No estas autenticado', checkEmail: user.emailVerified})
+              this.setState({isLoggedIn: true,authReady:true, userName: user.email, checkEmail: user.emailVerified})
               //console.log(this.state) 
             } else {
                 // User is signed out.
@@ -36,17 +36,7 @@ export class AuthContextProvider extends React.Component{
      componentWillUnmount() {
          this.unsubscribe();
     }
-
-     componentWillUpdate(){
-        if(this.state.isLoggedIn === true){
-            if (this.state.checkEmail === true) {
-                this.setState({isLoggedIn: true,authReady:true, userName: this.state.userName, checkEmail: true})  
-            }
-            
-        }
-        console.log(this.state)
-      }
-      
+    
     render() {
         return (
             <AuthContext.Provider value={this.state}>

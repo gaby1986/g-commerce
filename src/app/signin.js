@@ -10,10 +10,11 @@ class Signin extends Component{
     constructor(props){
         super(props)
         this.state={
-                email:'',
+                email2:'',
                 pass:'',
                 error: null,
-                redirect: false
+                redirect: false,
+                checkEmail: '',
         }
         this.handleInput = this.handleInput.bind(this)
         this.login = this.login.bind(this)
@@ -33,25 +34,26 @@ class Signin extends Component{
         this.setState({error:null})
         firebase.auth()
         .signInWithEmailAndPassword(
-            this.state.email,this.state.pass
+            this.state.email2,this.state.pass
             ).then(a=>{
                 //console.log("ingreso correcto");
-                //var user = firebase.auth().currentUser;
+                var user = firebase.auth().currentUser;
                 if (a.user.emailVerified===true) {
                     // User is signed in.
-                        console.log(this.context)
-                        this.setState({redirect:true})
-                        //this.props.history.push("/")
+                    this.setState({user})
+                    console.log(this.state)
+                    this.props.history.push("/")
                 } else {
+                    this.setState({user})
+                    firebase.auth().signOut()
+                    console.log(this.state)
+                    console.log(this.state)
                     // No user is signed in.
                     console.log("email invalido")
-                    //console.log(user.emailVerified)
                 }
-                //
-                //console.log(this.props.history)
             }).catch(error=>{
-                //console.log(error)
                 this.setState({error})
+                console.log(error)
             })
     }
     
@@ -80,7 +82,7 @@ class Signin extends Component{
                                     <div className="row">
                                         <div className="col s12">
                                             <div className="input-field col s12">    
-                                                <input type="text" onChange={this.handleInput} value={this.state.email} name="email" placeholder="Email"/>
+                                                <input type="text" onChange={this.handleInput} value={this.state.email2} name="email2" placeholder="Email"/>
                                             </div>
                                             <div className="input-field col s12">
                                                 <input type="password" onChange={this.handleInput} value={this.state.pass} name="pass" placeholder="Contraseña"/>

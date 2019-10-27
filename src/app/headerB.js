@@ -4,7 +4,6 @@ import firebase from '../firebase'
 import {AuthContext} from '../my_auth'
 import { Button, Card, Row, Col,Dropdown,Divider,Icon} from 'react-materialize';
 import M from 'materialize-css'; 
-const userActual = firebase.auth().currentUser;
 
 class Menu extends Component {
     static contextType = AuthContext
@@ -12,7 +11,6 @@ class Menu extends Component {
         super(props)
         this.state = {
             login: false,
-            validar: false,
             userName: 'Inicio el estado',
         }
          this.isSignOut = this.isSignOut.bind(this)
@@ -23,35 +21,26 @@ class Menu extends Component {
                  // Sign-out successful.
                  this.setState({
                      login: false,
-                     userName: 'te fuiste'
+                     userName: 'te fuiste',
+                     valid:false
             });
             console.log(this.state)
-            }).catch(function(error) {
+            //this.props.history.push("/signin")
+          }).catch(function(error) {
               // An error happened.
               console.log(error)
             })    
         } 
        
     render() {
-        console.log(this.props)
+         
         return (           
-                <nav className="light-blue darken-4">
+                <nav className="light-green darken-4">
                     <div className="nav-wrapper">
                         <Link to="/" className="brand-logo">gaby</Link>               
                         <ul className="right hide-on-med-and-down">
                             <li><Link to="/signup">Signup</Link></li>
-                            <li>
-                                {
-                                    this.props.valid &&  this.props.valid ?
-                                        <Dropdown trigger={<a>Menu<i className="material-icons right">arrow_drop_down</i></a>}>
-                                            <Link to="#!">{this.context.userName}</Link>                                    
-                                            <Link to="/admin">Admin</Link>
-                                            <Divider/>
-                                            <Link to="#!" onClick={this.isSignOut}>Salir</Link>
-                                        </Dropdown>:
-                                        <Link to="/signin">Login</Link>
-                                }
-                            </li>
+                            <li><Link to="/signin">Login</Link></li>
                         </ul>
                     </div>
                 </nav>

@@ -16,7 +16,7 @@ class Signup extends Component{
         }
         this.handleChange = this.handleChange.bind(this)
         this.register = this.register.bind(this)
-        console.log(props)
+        //console.log(props)
     }
     
     handleChange(e){
@@ -38,9 +38,8 @@ class Signup extends Component{
         })
         .then(res => res.json())
         .then(data => {
-            this.setState({name:'', email:'',pass:'',confirm_pass:''})
-            console.log(data)
-            console.log(this.state)
+            //this.setState({data})
+            //console.log(this.state)
         })
         .catch(err => console.log(err))
 
@@ -53,6 +52,10 @@ class Signup extends Component{
                     console.log('Se envio la autentificación')
                     console.log(a.user.emailVerified)
                 })
+                this.setState({a})
+                console.log(this.state)
+            }).then(a=>{
+                firebase.auth().signOut()
             })
             .catch(error=>{
                 console.log(error)

@@ -17,7 +17,7 @@ function App() {
     <AuthContextProvider>
       <Root>
         <Router>
-                <Menu/>
+                <GuardRoute valid='validar' exact component={Menu}/>
                 <GuardRoute type="public" path='/' exact component={Home}/>
                 <GuardRoute type="public" path="/signin" exact component={Signin}/>
                 <GuardRoute type="public" path="/signup" exact component={Signup}/>
