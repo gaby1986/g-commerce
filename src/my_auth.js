@@ -22,8 +22,17 @@ export class AuthContextProvider extends React.Component{
             //console.log(user)
             if (user) {           
               // User is signed in.
-              this.setState({isLoggedIn: true,authReady:true, userName: user.email, checkEmail: user.emailVerified})
-              //console.log(this.state) 
+              user.getIdToken().then(function(data) {
+                console.log(data)
+               });
+                if(user.emailVerified === true){
+
+                    this.setState({isLoggedIn: true,authReady:true, userName: user.email, checkEmail: user.emailVerified})
+                }else{
+
+                    firebase.auth().signOut()
+                }
+
             } else {
                 // User is signed out.
                 this.setState({isLoggedIn: false,authReady:true, userName:"No estas logeado", checkEmail:false})

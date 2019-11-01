@@ -10,7 +10,7 @@ class Signin extends Component{
     constructor(props){
         super(props)
         this.state={
-                email2:'',
+                email:'',
                 pass:'',
                 error: null,
                 redirect: false,
@@ -34,7 +34,7 @@ class Signin extends Component{
         this.setState({error:null})
         firebase.auth()
         .signInWithEmailAndPassword(
-            this.state.email2,this.state.pass
+            this.state.email,this.state.pass
             ).then(a=>{
                 //console.log("ingreso correcto");
                 var user = firebase.auth().currentUser;
@@ -45,7 +45,6 @@ class Signin extends Component{
                     this.props.history.push("/")
                 } else {
                     this.setState({user})
-                    firebase.auth().signOut()
                     console.log(this.state)
                     console.log(this.state)
                     // No user is signed in.
@@ -82,7 +81,7 @@ class Signin extends Component{
                                     <div className="row">
                                         <div className="col s12">
                                             <div className="input-field col s12">    
-                                                <input type="text" onChange={this.handleInput} value={this.state.email2} name="email2" placeholder="Email"/>
+                                                <input type="text" onChange={this.handleInput} value={this.state.email} name="email" placeholder="Email"/>
                                             </div>
                                             <div className="input-field col s12">
                                                 <input type="password" onChange={this.handleInput} value={this.state.pass} name="pass" placeholder="Contraseña"/>

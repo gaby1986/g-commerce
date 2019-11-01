@@ -26,18 +26,21 @@ app.use(morgan('dev'));
 //va a comprobar si el dato que envia es un formato json
 app.use(express.json())
 
+
+//app.use('/signup', express.static(path.join(__dirname, 'public')))
+app.use('/signup', require('./routes/users.routes'))
+//app.use('/signin', require('./routes/users.routes'))
+//app.use('/signin',  express.static(path.join(__dirname, 'public')))
+
+
 app.post('/signin', (req,res)=>{
-    const user = {id:3};
+    const user = {name}= req.body;
+    console.log(user)
     const token = jwt.sign({user}, 'my_secret_key');
     res.json({
         token
     })
 })
-
-//app.use('/signup', express.static(path.join(__dirname, 'public')))
-app.use('/signup', require('./routes/users.routes'))
-app.use('/signin', require('./routes/users.routes'))
-//app.use('/signin',  express.static(path.join(__dirname, 'public')))
 
 app.get('/protected',ensureToken,(req,res)=>{
     jwt.verify(req.token, 'my_secret_key', (err,data) => {

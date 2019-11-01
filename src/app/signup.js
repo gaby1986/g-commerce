@@ -54,10 +54,7 @@ class Signup extends Component{
                 })
                 this.setState({a})
                 console.log(this.state)
-            }).then(a=>{
-                firebase.auth().signOut()
-            })
-            .catch(error=>{
+            }).catch(error=>{
                 console.log(error)
                 this.setState({error})
                 console.log(this.state)
