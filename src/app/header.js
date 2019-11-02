@@ -42,10 +42,11 @@ class Menu extends Component {
                             <li><Link to="/signup">Signup</Link></li>
                             <li>
                                 {
-                                    this.props.valid &&  this.props.valid ?
+                                    this.props.valid &&  this.props.ing ?
                                         <Dropdown trigger={<a>Menu<i className="material-icons right">arrow_drop_down</i></a>}>
                                             <Link to="#!">{this.context.userName}</Link>                                    
                                             <Link to="/admin">Admin</Link>
+                                            <Link to="/protected">Protected</Link>
                                             <Divider/>
                                             <Link to="#!" onClick={this.isSignOut}>Salir</Link>
                                         </Dropdown>:

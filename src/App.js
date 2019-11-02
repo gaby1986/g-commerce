@@ -3,6 +3,7 @@ import {BrowserRouter as Router, Redirect, Route} from 'react-router-dom'
 import Home from './app/home'
 import AdminProduct from './app/adminProducts'
 import Signup from './app/signup'
+import Protected from './app/protected'
 import Signin from './app/signin'
 import Root from './app/root'
 import Menu from './app/header'
@@ -21,6 +22,7 @@ function App() {
                 <GuardRoute type="public" path='/' exact component={Home}/>
                 <GuardRoute type="public" path="/signin" exact component={Signin}/>
                 <GuardRoute type="public" path="/signup" exact component={Signup}/>
+                <GuardRoute type="public" path="/protected" exact component={Protected}/>
                 <GuardRoute type="private" path="/admin" exact component={AdminProduct}/>
         </Router>
       </Root>

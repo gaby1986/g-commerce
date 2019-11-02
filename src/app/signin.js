@@ -15,9 +15,11 @@ class Signin extends Component{
                 error: null,
                 redirect: false,
                 checkEmail: '',
+                token: ''
         }
         this.handleInput = this.handleInput.bind(this)
         this.login = this.login.bind(this)
+        this.passState = this.passState.bind(this)
        
     }
     handleInput(e){
@@ -40,12 +42,12 @@ class Signin extends Component{
                 var user = firebase.auth().currentUser;
                 if (a.user.emailVerified===true) {
                     // User is signed in.
-                    this.setState({user})
-                    console.log(this.state)
+                    //this.setState({user})
+                    //console.log(this.state)
+                    //this.passState(this.state)
                     this.props.history.push("/")
                 } else {
                     this.setState({user})
-                    console.log(this.state)
                     console.log(this.state)
                     // No user is signed in.
                     console.log("email invalido")
@@ -54,6 +56,24 @@ class Signin extends Component{
                 this.setState({error})
                 console.log(error)
             })
+
+            
+    }
+
+    passState(paramState){
+        fetch('http://localhost:3001/signin',{
+                method: 'POST',
+                body: JSON.stringify(paramState),
+                headers:{
+                    'Accepte': 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            }).then(res => res.json())
+            .then(data => {
+                console.log(data)
+                this.setState({token:data})
+                console.log(this.state)
+            }).catch(error => console.log(error))
     }
     
    

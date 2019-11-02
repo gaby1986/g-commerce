@@ -1,9 +1,9 @@
 import React, {Component} from  'react'
 import {AuthContext} from '../my_auth'
-//let  M = require('../materialize/css/materialize.min.css')
-//let  M = require('../materialize/js/materialize.min.js')
+
 
 class AdminProduct extends Component {
+    static contextType = AuthContext;
     constructor(){
         //con super heredo todas las funcionalidades que me da el componente
         super();
@@ -26,7 +26,8 @@ class AdminProduct extends Component {
                     body: JSON.stringify(this.state),
                     headers:{
                         'Accept': 'application/json',
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + this.context.token.token
                     }
             })
             //tradusco la respuesta en formato json
@@ -44,6 +45,7 @@ class AdminProduct extends Component {
                 headers:{
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
+                    'Authorization': 'Bearer ' + this.context.token.token
                 }
             })
             .then(res => res.json())
@@ -71,14 +73,20 @@ class AdminProduct extends Component {
     }
     fetchProducts(){
         // el fetch por defecto viene con get
-        fetch('http://localhost:3001/productos')
-            .then(res => res.json())
-            .then(data => {
-                this.setState({products: data});
-                console.log(this.state.products)
-            }).catch((error) => {
-                console.log(error);
-              });
+        fetch('http://localhost:3001/productos',{
+            method: 'GET',
+            headers:{
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + this.context.token.token
+            }
+                }).then(res => res.json())
+                .then(data => {
+                    this.setState({products: data});
+                    console.log(this.state.products)
+                }).catch((error) => {
+                    console.log(error);
+                });
     }
     handleChange(e){
        const {name, value} = e.target;
@@ -93,7 +101,8 @@ class AdminProduct extends Component {
                 method: 'DELETE',
                 headers:{
                     'Accept': 'application/json',
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + this.context.token.token
                 }
             })
             .then(res => res.json())
@@ -105,8 +114,14 @@ class AdminProduct extends Component {
         }
     }
     editProduct(id){
-        fetch(`http://localhost:3001/productos/${id}`)
-            .then(res => res.json())
+        fetch(`http://localhost:3001/productos/${id}`,{
+            method: 'GET',
+            headers:{
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + this.context.token.token
+            }
+        }).then(res => res.json())
             .then(data => {
                 console.log(data);
                 this.setState({
@@ -118,7 +133,6 @@ class AdminProduct extends Component {
                 })
             })
     }
-    static contextType = AuthContext;
     render(){
         return(
             <div>

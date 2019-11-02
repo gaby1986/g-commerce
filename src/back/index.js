@@ -35,7 +35,7 @@ app.use('/signup', require('./routes/users.routes'))
 
 app.post('/signin', (req,res)=>{
     const user = {name}= req.body;
-    console.log(user)
+    console.log(req.body)
     const token = jwt.sign({user}, 'my_secret_key');
     res.json({
         token
@@ -44,6 +44,7 @@ app.post('/signin', (req,res)=>{
 
 app.get('/protected',ensureToken,(req,res)=>{
     jwt.verify(req.token, 'my_secret_key', (err,data) => {
+        console.log(req.token)
         if(err){
             res.sendStatus(403);
         }else{
@@ -71,7 +72,7 @@ function ensureToken(req,res,next){
 
 
 //Routes de nuestro servidor
-app.use('/productos',require('./routes/products.routes'))
+app.use('/productos',ensureToken,require('./routes/products.routes'))
 
 //Statics files que van en la carpeta "public"
 
