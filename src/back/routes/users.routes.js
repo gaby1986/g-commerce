@@ -1,13 +1,12 @@
 const express = require('express');
 const router = express.Router();
 const Users = require('../models/users');
-const path = require('path')
 
 
 
 router.post('/', async (req,res) =>{
-    const {name, email, pass, confirm_pass} =  req.body;
-    const newUser =  new Users({name, email, pass})
+    const {name, email, pass, confirm_pass, role} =  req.body;
+    const newUser =  new Users({name, email, pass, role})
     if(pass != confirm_pass){
         console.log('Password dont match')
     }else{

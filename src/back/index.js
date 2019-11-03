@@ -6,6 +6,7 @@ const morgan = require('morgan')
 const path = require('path')
 const {mongoose} = require('./database')
 const jwt = require('jsonwebtoken')
+const AuthToken = require('./middlewares/AuthToken')
 
 
 let Cors = require('cors')
@@ -26,9 +27,11 @@ app.use(morgan('dev'));
 //va a comprobar si el dato que envia es un formato json
 app.use(express.json())
 
+app.use('/signup', require('./routes/users.routes'))
+
+app.use(AuthToken)
 
 //app.use('/signup', express.static(path.join(__dirname, 'public')))
-app.use('/signup', require('./routes/users.routes'))
 //app.use('/signin', require('./routes/users.routes'))
 //app.use('/signin',  express.static(path.join(__dirname, 'public')))
 
@@ -42,37 +45,18 @@ app.post('/signin', (req,res)=>{
     })
 })
 
-app.get('/protected',ensureToken,(req,res)=>{
-    jwt.verify(req.token, 'my_secret_key', (err,data) => {
-        console.log(req.token)
-        if(err){
-            res.sendStatus(403);
-        }else{
+app.get('/protected',(req,res)=>{
             res.json({
                 text: 'protected',
-                data
+                data: 'data?'
             })
-        }
-    })
-    
 })
-function ensureToken(req,res,next){
-   const bearerheader = req.headers['authorization'];
-   console.log(bearerheader)
-   if(typeof bearerheader !== 'undefined'){
-       const bearer = bearerheader.split(" ")
-       const bearerToken = bearer[1]
-       req.token = bearerToken;
-       next()
-   }else{
-       res.sendStatus(403)
-   }
-}
+
 
 
 
 //Routes de nuestro servidor
-app.use('/productos',ensureToken,require('./routes/products.routes'))
+app.use('/productos',require('./routes/products.routes'))
 
 //Statics files que van en la carpeta "public"
 

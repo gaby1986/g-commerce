@@ -6,6 +6,7 @@ const UsersSchema = new Schema({
     name:{type: String, require: true},
     email:{type: String, require: true},
     pass:{type: String, require:true},
+    role:{type: String, default:'client',enum:['client', 'admin'], require:true},
     date:{type: Date, default: Date.now}
 })
 

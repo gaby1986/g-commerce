@@ -14,7 +14,8 @@ export class AuthContextProvider extends React.Component{
             authReady: false,
             userName: null,
             checkEmail: false,
-            token: ''
+            token: '',
+            role: 'admin'
         }
     }
     
@@ -36,13 +37,13 @@ export class AuthContextProvider extends React.Component{
                         console.log(this.state)
                     }).catch(error => console.log(error))
                 }else{
-
+                    this.setState({isLoggedIn: false,authReady:true, userName:"No estas logeado", checkEmail:false, token: ''})
                     firebase.auth().signOut()
                 }
 
             } else {
+                this.setState({isLoggedIn: false,authReady:true, userName:"No estas logeado", checkEmail:false, token: '', role: 'admin'})
                 // User is signed out.
-                this.setState({isLoggedIn: false,authReady:true, userName:"No estas logeado", checkEmail:false, token: ''})
                 console.log(this.state)
             }
           });
