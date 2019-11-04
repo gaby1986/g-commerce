@@ -8,10 +8,10 @@ module.exports = function(req,res,next){
             const bearerToken = bearerheader.split(" ")[1]
             req.token = bearerToken;
             jwt.verify(req.token,'my_secret_key', function(error,data){
-                console.log(data.user.role)
+                console.log(data)
                 if(error) return res.status(403).send({message: 'No tiene los permisos para estar aqui'})
                 if(req.method != 'GET'){
-                    if(data.user.role === 'admin') next();
+                    if(data.role === 'admin') next();
                     else res.status(403).send({message: 'No sos admin'})
                 }else{
                     next()

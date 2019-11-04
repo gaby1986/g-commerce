@@ -36,22 +36,15 @@ app.use(AuthToken)
 //app.use('/signin',  express.static(path.join(__dirname, 'public')))
 
 
-app.post('/signin', (req,res)=>{
+/**app.post('/signin', (req,res)=>{
     const user = {name}= req.body;
-    console.log(req.body)
+    console.log(user)
     const token = jwt.sign({user}, 'my_secret_key');
     res.json({
         token
     })
-})
-
-app.get('/protected',(req,res)=>{
-            res.json({
-                text: 'protected',
-                data: 'data?'
-            })
-})
-
+})**/
+app.use('/signin',require('./routes/AuthController'))
 
 
 
@@ -59,7 +52,6 @@ app.get('/protected',(req,res)=>{
 app.use('/productos',require('./routes/products.routes'))
 
 //Statics files que van en la carpeta "public"
-
 //app.use('/',express.static(path.join(__dirname, 'public')))
 //app.use('/admin',express.static(path.join(__dirname, 'public')))
 

@@ -25,6 +25,8 @@ class Menu extends Component {
                      login: false,
                      userName: 'te fuiste'
             });
+            sessionStorage.removeItem('key')
+            sessionStorage.removeItem('token')
             console.log(this.state)
             }).catch(function(error) {
               // An error happened.
@@ -44,7 +46,7 @@ class Menu extends Component {
                                 {
                                     this.props.valid &&  this.props.ing ?
                                         <Dropdown trigger={<a>Menu<i className="material-icons right">arrow_drop_down</i></a>}>
-                                            <Link to="#!">{this.context.userName}</Link>                                    
+                                            <Link to="#!">{this.context.email}</Link>                                    
                                             <Link to="/admin">Admin</Link>
                                             <Link to="/protected">Protected</Link>
                                             <Divider/>

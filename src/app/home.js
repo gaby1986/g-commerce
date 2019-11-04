@@ -9,7 +9,7 @@ class Home extends Component{
         return(
             <div className="container">
                 <h1>Home</h1>
-                <span>{this.context.userName}</span>
+                <span>{this.context.email}</span>
             </div>
         )
     }

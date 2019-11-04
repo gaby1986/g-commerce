@@ -12,18 +12,23 @@ export class AuthContextProvider extends React.Component{
         this.state = {
             isLoggedIn: false,
             authReady: false,
-            userName: null,
+            email: null,
             checkEmail: false,
-            token: '',
-            role: 'admin'
+            password: '',
+            token: ''
         }
     }
     
     componentDidMount(){
+        var obtengoToken = ''
+        obtengoToken = sessionStorage.getItem('token')
+        console.log(obtengoToken)
         this.unsubscribe = firebase.auth().onAuthStateChanged(user => {
             if (user) {           
               // User is signed in.      
                 if(user.emailVerified === true){
+                    this.setState({isLoggedIn: true,authReady:true, email: user.email, checkEmail: user.emailVerified,password:sessionStorage.getItem('key'), token:obtengoToken})
+                    console.log(this.state)
                     fetch('http://localhost:3001/signin',{
                         method: 'POST',
                         body: JSON.stringify(this.state),
@@ -33,16 +38,20 @@ export class AuthContextProvider extends React.Component{
                         }
                     }).then(res => res.json())
                     .then(data => {
-                        this.setState({isLoggedIn: true,authReady:true, userName: user.email, checkEmail: user.emailVerified, token:data})
+                        if(data.token){
+                            sessionStorage.setItem('token', data.token)    
+                        }
+                            console.log(data)
+                        this.setState({isLoggedIn: true,authReady:true, email: user.email, checkEmail: user.emailVerified, token:obtengoToken})
                         console.log(this.state)
                     }).catch(error => console.log(error))
                 }else{
-                    this.setState({isLoggedIn: false,authReady:true, userName:"No estas logeado", checkEmail:false, token: ''})
+                    this.setState({isLoggedIn: false,authReady:true, email:"No estas logeado", checkEmail:false, token: ''})
                     firebase.auth().signOut()
                 }
 
             } else {
-                this.setState({isLoggedIn: false,authReady:true, userName:"No estas logeado", checkEmail:false, token: '', role: 'admin'})
+                this.setState({isLoggedIn: false,authReady:true, email:"No estas logeado",password:'', checkEmail:false, token: ''})
                 // User is signed out.
                 console.log(this.state)
             }
