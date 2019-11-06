@@ -21,13 +21,13 @@ export class AuthContextProvider extends React.Component{
     
     componentDidMount(){
         var obtengoToken = ''
-        obtengoToken = sessionStorage.getItem('token')
-        console.log(obtengoToken)
+        obtengoToken = localStorage.getItem('token')
+        //console.log(obtengoToken)
         this.unsubscribe = firebase.auth().onAuthStateChanged(user => {
             if (user) {           
               // User is signed in.      
                 if(user.emailVerified === true){
-                    this.setState({isLoggedIn: true,authReady:true, email: user.email, checkEmail: user.emailVerified,password:sessionStorage.getItem('key'), token:obtengoToken})
+                    this.setState({isLoggedIn: true,authReady:true, email: user.email, checkEmail: user.emailVerified, token:obtengoToken})
                     console.log(this.state)
                     fetch('http://localhost:3001/signin',{
                         method: 'POST',
@@ -39,7 +39,7 @@ export class AuthContextProvider extends React.Component{
                     }).then(res => res.json())
                     .then(data => {
                         if(data.token){
-                            sessionStorage.setItem('token', data.token)    
+                            localStorage.setItem('token', data.token)    
                         }
                             console.log(data)
                         this.setState({isLoggedIn: true,authReady:true, email: user.email, checkEmail: user.emailVerified, token:obtengoToken})
@@ -51,7 +51,7 @@ export class AuthContextProvider extends React.Component{
                 }
 
             } else {
-                this.setState({isLoggedIn: false,authReady:true, email:"No estas logeado",password:'', checkEmail:false, token: ''})
+                this.setState({isLoggedIn: false,authReady:true, email:"No estas logeado",password:'', checkEmail:false, token: 'ñfsjdñf'})
                 // User is signed out.
                 console.log(this.state)
             }

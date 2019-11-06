@@ -41,9 +41,9 @@ class Signin extends Component{
                 var user = firebase.auth().currentUser;
                 if (a.user.emailVerified===true) {
                     // User is signed in.
-                    sessionStorage.setItem('key',this.state.pass)
+                    //localStorage.setItem('key',this.state.pass)
 
-                    this.context.password = sessionStorage.getItem('key')
+                    this.context.password = this.state.pass
                     //console.log(this.context)
                     this.props.history.push("/")
                 } else {
