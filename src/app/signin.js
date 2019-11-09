@@ -44,6 +44,7 @@ class Signin extends Component{
                     //localStorage.setItem('key',this.state.pass)
 
                     this.context.password = this.state.pass
+                    this.context.token = localStorage.getItem('token')
                     //console.log(this.context)
                     this.props.history.push("/")
                 } else {

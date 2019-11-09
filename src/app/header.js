@@ -24,9 +24,9 @@ class Menu extends Component {
                  this.setState({
                      login: false,
                      userName: 'te fuiste'
-            });
-            sessionStorage.removeItem('key')
-            sessionStorage.removeItem('token')
+                });
+                localStorage.removeItem('key')
+                localStorage.removeItem('token')
             console.log(this.state)
             }).catch(function(error) {
               // An error happened.

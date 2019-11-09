@@ -1,6 +1,6 @@
 import React from 'react'
 import firebase from './firebase'
-
+const obtengoToken = localStorage.getItem('token')
 export const AuthContext = React.createContext({})
 
 export const AuthContextConsumer = AuthContext.Consumer;
@@ -20,13 +20,12 @@ export class AuthContextProvider extends React.Component{
     }
     
     componentDidMount(){
-        var obtengoToken = ''
-        obtengoToken = localStorage.getItem('token')
-        //console.log(obtengoToken)
+
         this.unsubscribe = firebase.auth().onAuthStateChanged(user => {
             if (user) {           
-              // User is signed in.      
+                // User is signed in.      
                 if(user.emailVerified === true){
+                    console.log(obtengoToken)
                     this.setState({isLoggedIn: true,authReady:true, email: user.email, checkEmail: user.emailVerified, token:obtengoToken})
                     console.log(this.state)
                     fetch('http://localhost:3001/signin',{
@@ -39,11 +38,12 @@ export class AuthContextProvider extends React.Component{
                     }).then(res => res.json())
                     .then(data => {
                         if(data.token){
-                            localStorage.setItem('token', data.token)    
-                        }
+                            localStorage.setItem('token', data.token)
+                            const test = localStorage.getItem('token')    
+                            this.setState({isLoggedIn: true,authReady:true, email: user.email, checkEmail: user.emailVerified, token:test})
                             console.log(data)
-                        this.setState({isLoggedIn: true,authReady:true, email: user.email, checkEmail: user.emailVerified, token:obtengoToken})
-                        console.log(this.state)
+                            console.log(this.state)
+                        }
                     }).catch(error => console.log(error))
                 }else{
                     this.setState({isLoggedIn: false,authReady:true, email:"No estas logeado", checkEmail:false, token: ''})
@@ -51,7 +51,7 @@ export class AuthContextProvider extends React.Component{
                 }
 
             } else {
-                this.setState({isLoggedIn: false,authReady:true, email:"No estas logeado",password:'', checkEmail:false, token: 'ñfsjdñf'})
+                this.setState({isLoggedIn: false,authReady:true, email:"No estas logeado",password:'', checkEmail:false, token: 'empty' })
                 // User is signed out.
                 console.log(this.state)
             }

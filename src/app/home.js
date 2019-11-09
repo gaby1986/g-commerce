@@ -13,15 +13,15 @@ class Home extends Component{
 
     showProducts(){
         fetch('http://localhost:3001/productos',{
-            method:'GET',
+            method: 'GET',
             headers:{
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + this.context.token,
+                'Authorization': 'Bearer ' + this.context.token
             }
-
-        }).then(res => res.json())
+                }).then(res => res.json())
         .then(data =>{
+            console.log(data)
             if(data){
                 this.setState({products: data});
             }
@@ -39,6 +39,7 @@ class Home extends Component{
                 <span>{this.context.email}</span>
                     <div className="row">
                 {
+                    this.context.token !== 'empty' ?
                     this.state.products.map(product => {
                         return(
                             
@@ -59,7 +60,8 @@ class Home extends Component{
                                         </div>
                                     </div>
                         )
-                    })
+                    }):
+                    <div>Bien!</div>
                 }
                 </div>
             </div>
