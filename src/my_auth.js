@@ -20,12 +20,12 @@ export class AuthContextProvider extends React.Component{
     }
     
     componentDidMount(){
-
+        
+        //console.log(obtengoToken)
         this.unsubscribe = firebase.auth().onAuthStateChanged(user => {
             if (user) {           
                 // User is signed in.      
                 if(user.emailVerified === true){
-                    console.log(obtengoToken)
                     this.setState({isLoggedIn: true,authReady:true, email: user.email, checkEmail: user.emailVerified, token:obtengoToken})
                     console.log(this.state)
                     fetch('http://localhost:3001/signin',{
@@ -46,7 +46,7 @@ export class AuthContextProvider extends React.Component{
                         }
                     }).catch(error => console.log(error))
                 }else{
-                    this.setState({isLoggedIn: false,authReady:true, email:"No estas logeado", checkEmail:false, token: ''})
+                    this.setState({isLoggedIn: false,authReady:true, email:"No estas logeado", checkEmail:false, token: 'empty'})
                     firebase.auth().signOut()
                 }
 

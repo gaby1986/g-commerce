@@ -61,7 +61,7 @@ class Home extends Component{
                                     </div>
                         )
                     }):
-                    <div>Bien!</div>
+                    <div>Bien</div>
                 }
                 </div>
             </div>
