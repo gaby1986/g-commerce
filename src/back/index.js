@@ -29,6 +29,7 @@ app.use(express.json())
 
 app.use('/signup', require('./routes/users.routes'))
 
+app.use('/signin',require('./routes/AuthController'))
 app.use(AuthToken)
 
 //app.use('/signup', express.static(path.join(__dirname, 'public')))
@@ -44,7 +45,6 @@ app.use(AuthToken)
         token
     })
 })**/
-app.use('/signin',require('./routes/AuthController'))
 
 
 

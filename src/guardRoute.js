@@ -8,6 +8,7 @@ export class GuardRoute extends React.Component {
         const {
             type,
             valid,
+            token,
             ...rest
         } = this.props;
         const {

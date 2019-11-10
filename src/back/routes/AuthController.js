@@ -5,17 +5,17 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken')
 
 
-router.post('/', async (req,res)=>{
+router.post('/', (req,res)=>{
     let {email} = req.body
     let {password} = req.body
     //console.log(email)
-    //console.log(password)
-
+    
     Users.findOne({email}).then(user =>{
         //console.log(user)
         if(!user) return res.status(404).send({message:'El usario no existe'})
         bcrypt.compare(password, user.pass)
         .then(match =>{
+            console.log("esta es la pass " + password)
             console.log(match)
             if(match){
                 payload = {

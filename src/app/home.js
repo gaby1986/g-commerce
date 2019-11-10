@@ -4,34 +4,50 @@ import {AuthContext} from '../my_auth'
 
 class Home extends Component{
     static contextType = AuthContext
-    
-        state = {
-           
-            products:[]
-        }
-    
+    constructor(props){
+        super(props)
+        this.state = {
+                token: '',
+                products:[]
+            }
 
-    showProducts(){
-        fetch('http://localhost:3001/productos',{
-            method: 'GET',
-            headers:{
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + this.context.token
-            }
-                }).then(res => res.json())
-        .then(data =>{
-            console.log(data)
-            if(data){
-                this.setState({products: data});
-            }
-        }).catch(error =>{
-            console.log(error)
-        })
     }
-    componentDidMount(){
+    getToken = () => {
+        // Retrieves the user token from localStorage
+        return localStorage.getItem("token");
+      };
+    loggedIn = () => {
+        // Checks if there is a saved token and it's still valid
+        const token = this.getToken(); // Getting token from localstorage
+        return !!token; // handwaiving here
+      }; 
+
+   showProducts(){   
+        if(this.loggedIn()){
+        fetch('http://localhost:3001/productos',{
+                method: 'GET',
+                headers:{
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + this.getToken()
+                }
+            }).then(res => res.json())
+                .then(data =>{         
+                    console.log(data) 
+                    this.setState({products:data})
+                    //this.context.products = data                   
+                }).catch(error =>{
+                    console.log(error)
+                })
+        }
+    }
+    componentDidMount(){   
         this.showProducts()
     }
+    componentWillReceiveProps(){
+        this.showProducts()
+    }
+ 
     render(){  
         return(
             <div className="container">
@@ -39,7 +55,7 @@ class Home extends Component{
                 <span>{this.context.email}</span>
                     <div className="row">
                 {
-                    this.context.token !== 'empty' ?
+                    this.loggedIn()  ?
                     this.state.products.map(product => {
                         return(
                             

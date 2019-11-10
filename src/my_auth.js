@@ -1,6 +1,6 @@
 import React from 'react'
 import firebase from './firebase'
-const obtengoToken = localStorage.getItem('token')
+//const obtengoToken = localStorage.getItem('token')
 export const AuthContext = React.createContext({})
 
 export const AuthContextConsumer = AuthContext.Consumer;
@@ -15,10 +15,32 @@ export class AuthContextProvider extends React.Component{
             email: null,
             checkEmail: false,
             password: '',
-            token: ''
+            products: [],
+            token: 'empty'
         }
     }
-    
+    login1=(state)=>{
+        let promise= new Promise((resolve,reject)=>{
+            fetch('http://localhost:3001/signin',{
+            method: 'POST',
+            body: JSON.stringify(state),
+            headers:{
+                'Accepte': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        }).then(res => res.json())
+        .then(data => {
+            if(data.token){            
+                console.log(data.token)
+                this.setToken(data.token)
+                return resolve(data);
+            }
+        }).catch(error=>{
+            return error
+        })
+    })
+        return promise
+    }
     componentDidMount(){
         
         //console.log(obtengoToken)
@@ -26,25 +48,13 @@ export class AuthContextProvider extends React.Component{
             if (user) {           
                 // User is signed in.      
                 if(user.emailVerified === true){
-                    this.setState({isLoggedIn: true,authReady:true, email: user.email, checkEmail: user.emailVerified, token:obtengoToken})
-                    console.log(this.state)
-                    fetch('http://localhost:3001/signin',{
-                        method: 'POST',
-                        body: JSON.stringify(this.state),
-                        headers:{
-                            'Accepte': 'application/json',
-                            'Content-Type': 'application/json'
-                        }
-                    }).then(res => res.json())
-                    .then(data => {
-                        if(data.token){
-                            localStorage.setItem('token', data.token)
-                            const test = localStorage.getItem('token')    
-                            this.setState({isLoggedIn: true,authReady:true, email: user.email, checkEmail: user.emailVerified, token:test})
-                            console.log(data)
-                            console.log(this.state)
-                        }
-                    }).catch(error => console.log(error))
+                    this.setState({isLoggedIn: true,authReady:true, email: user.email, checkEmail: user.emailVerified, token: localStorage.getItem("token")})
+                    //console.log(this.state)                   
+                    this.login1(this.state)
+                        .then(resolve => {
+                            this.setState({token:resolve.token})
+                            console.log(this.state);
+                      });
                 }else{
                     this.setState({isLoggedIn: false,authReady:true, email:"No estas logeado", checkEmail:false, token: 'empty'})
                     firebase.auth().signOut()
@@ -58,6 +68,23 @@ export class AuthContextProvider extends React.Component{
           });
                
      } 
+
+     setToken = idToken => {
+        // Saves user token to localStorage
+        localStorage.setItem("token", idToken);
+      };
+      loggedIn = () => {
+        // Checks if there is a saved token and it's still valid
+        const token = this.getToken(); // Getting token from localstorage
+        return !!token; // handwaiving here
+      };
+      getToken = () => {
+        // Retrieves the user token from localStorage
+        return localStorage.getItem("token");
+      };
+    
+
+
      componentWillUnmount() {
          this.unsubscribe();
     }

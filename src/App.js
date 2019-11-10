@@ -19,7 +19,7 @@ function App() {
       <Root>
         <Router>
                 <GuardRoute valid='validar' exact component={Menu}/>
-                <GuardRoute type="public" path='/' exact component={Home}/>
+                <GuardRoute token='423423' type="public" path='/' exact component={Home}/>
                 <GuardRoute type="public" path="/signin" exact component={Signin}/>
                 <GuardRoute type="public" path="/signup" exact component={Signup}/>
                 <GuardRoute type="public" path="/protected" exact component={Protected}/>
